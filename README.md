@@ -13,3 +13,11 @@ Create multiple projects:
    3. Edit settings.gradle
       1. include 'eatgo-api'
 3. Run Gradle
+
+REST API
+
+* POST: Create
+* GET: Read
+* PUT/PATCH: Update
+* DELETE: Delete
+
