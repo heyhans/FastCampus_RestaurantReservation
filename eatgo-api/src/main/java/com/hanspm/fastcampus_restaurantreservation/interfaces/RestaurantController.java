@@ -1,7 +1,7 @@
 package com.hanspm.fastcampus_restaurantreservation.interfaces;
 
+import com.hanspm.fastcampus_restaurantreservation.application.RestaurantService;
 import com.hanspm.fastcampus_restaurantreservation.domain.Restaurant;
-import com.hanspm.fastcampus_restaurantreservation.domain.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,20 +13,19 @@ import java.util.List;
 public class RestaurantController {
 
     @Autowired
-    private RestaurantRepository restaurantRepository;
+    private RestaurantService restaurantService;
 
     @GetMapping("/restaurants")
     public List<Restaurant> list() {
 
-        List<Restaurant> restaurants = restaurantRepository.findAll();
+        List<Restaurant> restaurants = restaurantService.getRestaurants();
 
         return restaurants;
     }
 
     @GetMapping("/restaurants/{id}")
     public Restaurant detail(@PathVariable("id") Long id) {
-
-        Restaurant restaurant = restaurantRepository.findById(id);
+        Restaurant restaurant = restaurantService.getRestaurant(id);
 
         return restaurant;
     }

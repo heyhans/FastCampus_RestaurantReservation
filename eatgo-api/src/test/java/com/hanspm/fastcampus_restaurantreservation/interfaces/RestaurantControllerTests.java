@@ -1,9 +1,13 @@
 package com.hanspm.fastcampus_restaurantreservation.interfaces;
 
+import com.hanspm.fastcampus_restaurantreservation.application.RestaurantService;
+import com.hanspm.fastcampus_restaurantreservation.domain.MenuItemRepository;
+import com.hanspm.fastcampus_restaurantreservation.domain.MenuItemRepositoryImpl;
 import com.hanspm.fastcampus_restaurantreservation.domain.RestaurantRepository;
 import com.hanspm.fastcampus_restaurantreservation.domain.RestaurantRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -22,8 +26,14 @@ class RestaurantControllerTests {
     @Autowired
     private MockMvc mvc;
 
+    @SpyBean(RestaurantService.class)
+    private RestaurantService restaurantService;
+
     @SpyBean(RestaurantRepositoryImpl.class)
     private RestaurantRepository restaurantRepository;
+
+    @SpyBean(MenuItemRepositoryImpl.class)
+    private MenuItemRepository menuItemRepository;
 
     @Test
     public void list() throws Exception {
@@ -31,7 +41,6 @@ class RestaurantControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"id\":1004")))
                 .andExpect(content().string(containsString("\"name\":\"Bob zip\"")));
-
     }
 
     @Test
@@ -39,7 +48,8 @@ class RestaurantControllerTests {
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"id\":1004")))
-                .andExpect(content().string(containsString("\"name\":\"Bob zip\"")));
+                .andExpect(content().string(containsString("\"name\":\"Bob zip\"")))
+                .andExpect(content().string(containsString("Kimchi")));
 
         mvc.perform(get("/restaurants/2020"))
                 .andExpect(status().isOk())
